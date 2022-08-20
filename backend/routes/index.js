@@ -5,6 +5,10 @@ const axios = require("axios");
 const UserCommits = require('../schema/userCommits');
 const UserRepos = require('../schema/userRepo');
 
+
+require('dotenv').config();
+
+
 router.get("/userinfo/:userid", async (req, res) => {
   const userName = req.params.userid;
   const userRepo = await UserRepos.find(
@@ -16,12 +20,8 @@ router.get("/userinfo/:userid", async (req, res) => {
     return res.send(userRepo);
   }
   else{
-  axios
-    .get(`https://api.github.com/users/${userName}/repos`, {
-      headers: {
-        Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
-      },
-    })
+
+  axios.get(`https://api.github.com/users/${userName}/repos`)
     .then((resp) => {
     const user =   resp.data.map(response =>{
         return {...response , userName : response.owner.login.toLowerCase()};
@@ -47,11 +47,7 @@ router.get("/userinfo/repos/:userid/:repos", async (req, res) => {
   }
   else{
   axios
-    .get(`https://api.github.com/repos/${userName}/${repos}/commits`, {
-      headers: {
-        Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
-      },
-    })
+    .get(`https://api.github.com/repos/${userName}/${repos}/commits`)
     .then((resp) => {
       const user =   resp.data.map(response =>{
         return {...response ,userName : userName.toLowerCase() , reposName : repos.toLowerCase()};

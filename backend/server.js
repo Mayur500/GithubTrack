@@ -2,11 +2,16 @@ const express = require("express");
 const usersDetails = require("./routes/index");
 
 const app = express();
-const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require('path');
+const cors = require('cors');
 
 require('dotenv').config();
+
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -21,10 +26,9 @@ mongoose
   });
 
 
-
 app.use("/users/", usersDetails);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 
 // ----deployment----
@@ -44,7 +48,6 @@ else{
      return res.send('Api is running');
   });
 }
-
 
 
 app.listen(PORT, (error) => {

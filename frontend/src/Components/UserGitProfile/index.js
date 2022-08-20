@@ -21,8 +21,9 @@ function UserGitProfile() {
       setCommits(true);
       setFetching(true);
       const userCommits = await axios.get(
-        `/users/userinfo/repos/${userData[index].owner.login}/${userData[index].name}`
+        `http://localhost:8080/users/userinfo/repos/${userData[index].owner.login}/${userData[index].name}`
       );
+
       setFetching(false);
       setUserDataCommits(userCommits.data);
     } else {

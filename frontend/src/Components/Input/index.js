@@ -17,8 +17,9 @@ function Input(props) {
     if (value) {
       props.setFetching(true);
       const userRepos = await axios.get(
-        `/users/userinfo/${value}`
+        `http://localhost:8080/users/userinfo/${value}`
       );
+
       props.setuserData(userRepos.data);
       props.setFetching(false);
     }
