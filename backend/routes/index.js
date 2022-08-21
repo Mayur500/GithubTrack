@@ -39,8 +39,9 @@ router.get("/userinfo/repos/:userid/:repos", async (req, res) => {
   const userName = req.params.userid;
   const repos = req.params.repos;
 
-    const userCommits = await UserCommits.find(
-     {"userName"  : userName.toLowerCase()}
+    const userCommits = await UserCommits.find({
+     $and : [{"userName"  : userName.toLowerCase()},{"reposName"  : repos.toLowerCase()}]
+    }
   )
   if(userCommits.length>0){
     return res.send(userCommits);
